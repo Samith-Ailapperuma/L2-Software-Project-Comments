@@ -1,0 +1,49 @@
+.commentForm{
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-top: 1.5%;
+}
+
+.commentList{
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-top: 1.5%;
+}
+
+.comment{
+  margin-bottom: 0.5%;
+  padding: 1%;
+}
+
+.buttons{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button{
+  margin-left: 1%;
+}
+
+.avatar{
+  width: 3%;
+  display: inline-block;
+}
+
+.reply{
+  padding-left: 3%;
+  padding-bottom: 1%;
+}
+
+#userName{
+  display: inline-block;
+  padding-left: 1%;
+}
+
+#replyTo{
+  margin-left: 1%; 
+  font-weight: 500;
+}
+
+/* 
+Color: #2164d1 
+*/
