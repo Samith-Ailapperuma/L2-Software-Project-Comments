@@ -2,10 +2,12 @@ import { React, useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Card, Image, } from 'react-bootstrap';
 import Reply from './Reply';
+import ReportDescription from './ReportDescription';
 
 function CommentList() {
     const [commentList, setCommentList] = useState([]);
     const [openReply, setOpenReply] = useState(false);
+    const [openReport, setOpenReport] = useState(false);
 
     // const updateCommentList = () => {
     //     setCommentList(commentList.concat(newComment));
@@ -13,6 +15,10 @@ function CommentList() {
 
     const displayReply = () => {
         setOpenReply(!openReply);
+    }
+
+    const reportWindow = () => {
+        setOpenReport(!openReport);
     }
 
     // const handleClick = (id) => {
@@ -30,7 +36,7 @@ function CommentList() {
     return (
         <div>
             <div className="commentList">
-                {commentList.map((comments, index) => {
+                {commentList.filter((comments) => comments.responseTo === null && comments.isVisible === true).map((comments, index) => {
                     return (
                         <div>    
                             <Card className="comment">
@@ -43,7 +49,7 @@ function CommentList() {
                                 <p>{comments.comment}</p>
                                 <div className="buttons">
                                     <Button className="button" variant="outline-secondary" size="sm" onClick={() => displayReply()}>Reply</Button>
-                                    <Button className="button" variant="outline-secondary" size="sm">Report</Button>
+                                    <Button className="button" variant="outline-secondary" size="sm" onClick ={() => reportWindow()}>Report</Button>
                                 </div>
                             </Card>
 
@@ -53,6 +59,10 @@ function CommentList() {
                                 </div>
                             }
 
+                            {openReport &&
+                                <ReportDescription commentID={comments._id}/>
+                            }
+
                             {/* {openReply === index ? (
                                 <React.Fragment>
                                     <Reply postID={comments._id} />
@@ -60,14 +70,10 @@ function CommentList() {
                             ) : null} */}
 
                         </div>
-
                     );
                 })}
-
             </div>
-
         </div >
-
     );
 }
 

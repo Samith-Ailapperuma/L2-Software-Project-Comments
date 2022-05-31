@@ -1,6 +1,7 @@
 import { React, useState } from "react";
 import { Button, Card, Form } from 'react-bootstrap';
 import axios from 'axios';
+import ReplyList from "./ReplyList";
 
 function Reply(props) {
     const [comment, setComment] = useState();
@@ -38,7 +39,9 @@ function Reply(props) {
                     </Form.Group>
                     <Button className="float-end" variant="secondary" onClick={addComment}>Add reply</Button>
                 </Form>
-            </Card>
+            </Card><br/>
+            <p id="viewReplies">View Replies</p> 
+            <ReplyList parentID={parentID}/>
         </div>
     );
 }

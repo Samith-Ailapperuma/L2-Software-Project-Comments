@@ -12,11 +12,11 @@ const CommentSchema = new Schema({
     },
     responseTo: {
         type: String,
-        required: false,
+        default: null
     },
     comment: {
         type: String,
-        required: true,
+        required: true
     },
     isVisible: {
         type: Boolean,
