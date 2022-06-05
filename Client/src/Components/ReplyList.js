@@ -6,8 +6,10 @@ import ReportDescription from './ReportDescription';
 function ReplyList(props) {
     const [replyList, setReplyList] = useState([]);
     const [openReport, setOpenReport] = useState(false);
+    const [selected, setSelected] = useState();
 
-    const reportWindow = () => {
+    const reportWindow = (id) => {
+        setSelected(id);
         setOpenReport(!openReport);
     }
 
@@ -18,10 +20,12 @@ function ReplyList(props) {
         })
     }, [])
 
+    const filteredList = replyList.filter((reply) => reply.responseTo === props.parentID && reply.isVisible === true)
     return (
         <div>
             <div className='commentList'>
-                {replyList.filter((reply) => reply.responseTo === props.parentID && reply.isVisible === true).map((replies) => {
+                
+                {(filteredList.map((replies) => {
                     return (
                         <div >
                             <Card className="comment">
@@ -29,23 +33,26 @@ function ReplyList(props) {
                                     <div className="avatar">
                                         <Image src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" fluid="true" roundedCircle="true"></Image>
                                     </div>
-                                    <p id="userName" style={{ fontWeight: "bold" }}>{replies._id}</p>
+                                    <p className="userName" style={{ fontWeight: "bold" }}>{replies._id}</p>
+                                    <p className="userName">{replies.time}</p>
                                 </div>
                                 <p>{replies.comment}</p>
 
                                 <div className='buttons'>
-                                    <Button className="button" variant="outline-secondary" size="sm" onClick={() => reportWindow()}>Report</Button>
+                                    <Button className="button" variant="outline-secondary" size="sm" onClick={() => reportWindow(replies._id)}>Report</Button>
                                 </div>
                             </Card>
 
-                            {openReport &&
-                                <ReportDescription commentID={replies._id} />
+                            {(selected === replies._id) ?
+                                openReport &&
+                                <ReportDescription commentID={replies._id} /> : null
                             }
                         </div>
                     );
-                })}
+                })
+                )}
             </div>
-        </div>
+        </div >
     );
 }
 

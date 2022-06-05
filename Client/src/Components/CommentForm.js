@@ -9,8 +9,11 @@ function CommentForm() {
     const addComment = (event) => {
         event.preventDefault();
 
-        axios.post('http://localhost:5000/addComment',{
-            comment
+        let commentTime = new Date().toLocaleString();
+        
+        axios.post('http://localhost:5000/addComment', {
+            comment,
+            commentTime
         }).then((res) => {
             setComment("");
             console.log("Comment saved successfully");
@@ -32,7 +35,7 @@ function CommentForm() {
                 </Form>
             </Card>
             <div>
-                <CommentList/>
+                <CommentList />
             </div>
         </div >
     );

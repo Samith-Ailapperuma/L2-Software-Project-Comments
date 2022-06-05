@@ -1,7 +1,6 @@
 import { React, useState } from "react";
 import { Button, Card, Form } from 'react-bootstrap';
 import axios from 'axios';
-import ReplyList from "./ReplyList";
 
 function Reply(props) {
     const [comment, setComment] = useState();
@@ -13,16 +12,17 @@ function Reply(props) {
     const addComment = (event) => {
         event.preventDefault();
 
-        const variables = {
-            comment: comment,
-            responseTo: parentID
-        }
+        let commentTime = new Date().toLocaleString();
+        let responseTo = parentID
 
-        axios.post('http://localhost:5000/addComment', variables)
-            .then((res) => {
-                setComment("");
-                console.log("Comment saved successfully");
-            });
+        axios.post('http://localhost:5000/addComment', {
+            comment,
+            responseTo,
+            commentTime
+        }).then((res) => {
+            setComment("");
+            console.log("Comment saved successfully");
+        });
     }
 
     return (
@@ -32,16 +32,14 @@ function Reply(props) {
                     <p id="replyTo">Replying to {parentID}</p>
                     <Form.Group>
                         <Form.Control as="textarea"
-                                value={comment}
-                                placeholder="Add reply"
-                                onChange={(event) => { setComment(event.target.value) }}>
-                            </Form.Control>
+                            value={comment}
+                            placeholder="Add reply"
+                            onChange={(event) => { setComment(event.target.value) }}>
+                        </Form.Control>
                     </Form.Group>
                     <Button className="float-end" variant="secondary" onClick={addComment}>Add reply</Button>
                 </Form>
-            </Card><br/>
-            <p id="viewReplies">View Replies</p> 
-            <ReplyList parentID={parentID}/>
+            </Card><br />            
         </div>
     );
 }

@@ -25,6 +25,14 @@ const CommentSchema = new Schema({
     description: {
         type: String,
         required: false
+    },
+    time: {
+        type: String,
+        required: false
+    },
+    isEdited: {
+        type: Boolean,
+        default: null
     }
 });
 
