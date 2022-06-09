@@ -34,7 +34,7 @@ function ReplyList(props) {
                                         <Image src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" fluid="true" roundedCircle="true"></Image>
                                     </div>
                                     <p className="userName" style={{ fontWeight: "bold" }}>{replies._id}</p>
-                                    <p className="userName">{replies.time}</p>
+                                    <p className="dateTime">{replies.time}</p>
                                 </div>
                                 <p>{replies.comment}</p>
 

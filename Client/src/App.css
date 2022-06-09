@@ -1,62 +1,74 @@
+a{
+  color: black !important;
+}
+
 .commentForm {
-  padding-left: 5%;
-  padding-right: 5%;
-  padding-top: 1.5%;
+padding-left: 5%;
+padding-right: 5%;
+padding-top: 1.5%;
 }
 
 .commentList {
-  padding-left: 5%;
-  padding-right: 5%;
-  padding-top: 1.5%;
+padding-left: 5%;
+padding-right: 5%;
+padding-top: 1.5%;
 }
 
 .comment {
-  margin-bottom: 0.5%;
-  padding: 1%;
+margin-bottom: 0.5%;
+padding: 1%;
+}
+
+.commentList .comment{
+  background-color: #E8FAEA;
 }
 
 .buttons {
-  display: flex;
-  justify-content: flex-end;
+display: flex;
+justify-content: flex-end;
 }
 
 .button {
-  margin-left: 1%;
+margin-left: 1%;
 }
 
 .avatar {
-  width: 3%;
-  display: inline-block;
+width: 3%;
+display: inline-block;
 }
 
 .reply {
-  padding-left: 3%;
-  padding-bottom: 1%;
+padding-left: 3%;
+padding-bottom: 1%;
 }
 
 .userName {
-  display: inline-block;
-  padding-left: 1%;
+display: inline-block;
+padding-left: 1%;
 }
 
-#dateTime {
-  display: inline-block;
-  padding-left: 5%;
+.dateTime {
+display: inline-block;
+padding-left: 5%;
+}
+
+.commentForm .textBox{
+  background-color: #E8FAEA;
 }
 
 #replyTo {
-  margin-left: 1%;
-  font-weight: 500;
+margin-left: 1%;
+font-weight: 500;
 }
 
 #viewReplies {
-  font-weight: 600;
+font-weight: 600;
 }
 
 #edited{
-  display: inline-block;
-  padding-left: 1%;
-  font-weight: 500;
+display: inline-block;
+padding-left: 1%;
+font-weight: 500;
 }
 
 /* 

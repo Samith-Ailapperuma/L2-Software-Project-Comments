@@ -10,7 +10,7 @@ function CommentForm() {
         event.preventDefault();
 
         let commentTime = new Date().toLocaleString();
-        
+
         axios.post('http://localhost:5000/addComment', {
             comment,
             commentTime
@@ -26,6 +26,7 @@ function CommentForm() {
                 <Form>
                     <Form.Group>
                         <Form.Control as="textarea"
+                            className="textBox"
                             value={comment}
                             placeholder="Add a comment"
                             onChange={(event) => { setComment(event.target.value) }}>
@@ -34,6 +35,7 @@ function CommentForm() {
                     </Form.Group>
                 </Form>
             </Card>
+
             <div>
                 <CommentList />
             </div>

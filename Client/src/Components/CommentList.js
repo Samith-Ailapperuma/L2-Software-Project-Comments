@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import axios from 'axios';
-import { Button, Card, Image, } from 'react-bootstrap';
+import { Button, Card, Image, Dropdown, DropdownButton, } from 'react-bootstrap';
 import Reply from './Reply';
 import ReportDescription from './ReportDescription';
 import EditComment from './EditComment';
@@ -13,10 +13,7 @@ function CommentList() {
     const [openReport, setOpenReport] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [selected, setSelected] = useState();
-
-    // const updateCommentList = () => {
-    //     setCommentList(commentList.concat(newComment));
-    // }
+    const [newestFirst, setNewestFirst] = useState(true);
 
     const displayReplyWindow = (id) => {
         setSelected(id);
@@ -56,10 +53,26 @@ function CommentList() {
         })
     }, [])
 
+    const filteredList = commentList.filter((comments) => comments.responseTo === null && comments.isVisible === true);
+
+    let sortedList;
+    if (newestFirst === true) {
+        sortedList = filteredList.sort((a, b) => new Date(b.time) - new Date(a.time));
+    } else {
+        sortedList = filteredList.sort((a, b) => new Date(a.time) - new Date(b.time))
+    }
+
     return (
         <div>
+            <div>
+                <DropdownButton variant="success" title="Sort By">
+                    <Dropdown.Item onClick={() => setNewestFirst(true)}>Newest First</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setNewestFirst(false)}>Oldest first</Dropdown.Item>
+                </DropdownButton>
+            </div>
+
             <div className="commentList">
-                {commentList.filter((comments) => comments.responseTo === null && comments.isVisible === true).map((comments, index) => {
+                {sortedList.map((comments, index) => {
                     return (
                         <div>
                             <Card className="comment">
@@ -68,7 +81,7 @@ function CommentList() {
                                         <Image src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" fluid="true" roundedCircle="true"></Image>
                                     </div>
                                     <p className="userName" style={{ fontWeight: "bold" }}>{comments._id}</p>
-                                    <p id="dateTime">{comments.time}</p>
+                                    <p className="dateTime">{comments.time}</p>
                                     {(comments.isEdited === true) ?
                                         <p id="edited">(Edited)</p> : null}
 
@@ -86,8 +99,8 @@ function CommentList() {
                             </Card>
 
                             {commentList.filter((reply) => reply.responseTo === comments._id && reply.isVisible === true).length > 0 ?
-                                <p style={{ fontWeight: "500", textDecorationLine: "underline" }}>
-                                    <a onClick={() => allReplies(comments._id)}>View replies</a>
+                                <p style={{ fontWeight: "500"}}>
+                                    <a href="#!" onClick={() => allReplies(comments._id)}>View replies</a>
                                 </p> : null
                             }
 
