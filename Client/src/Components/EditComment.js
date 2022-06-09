@@ -5,6 +5,7 @@ import axios from "axios";
 function EditComment(props){
     const [comment, setComment] = useState();
 
+    // Edit a comment
     const editComment = () => {
         axios.put(`http://localhost:5000/editComment/${props.commentID}`,{
             comment
@@ -14,6 +15,7 @@ function EditComment(props){
         })
     }
 
+    // Retrieve a specific comment
     useEffect(() => {
         axios.get(`http://localhost:5000/getComment/${props.commentID}`).then((res) => {
             setComment(res.data.comment.comment);

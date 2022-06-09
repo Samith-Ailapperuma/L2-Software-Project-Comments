@@ -1,10 +1,20 @@
 import axios from "axios";
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { Card, Form, Button } from "react-bootstrap";
 
 function ReportDescription(props) {
+    const [commentList, setCommentList] = useState([]);
     const [description, setDescription] = useState();
 
+    // Retrieve all comments
+    useEffect(() => {
+        axios.get("http://localhost:5000/getComments").then((response) => {
+            setCommentList(response.data);
+            console.log(response.data);
+        })
+    }, [])
+
+    // Add report description to reported comment
     const reportComment = () => {
         axios.put(`http://localhost:5000/addReport/${props.commentID}`, {
             description
@@ -13,6 +23,9 @@ function ReportDescription(props) {
         }).catch((error) => {
             console.log(error.response);
         });
+
+        const newList = commentList.filter((comment) => comment._id !== props.commentID);
+        setCommentList(newList);
     }
 
     return (

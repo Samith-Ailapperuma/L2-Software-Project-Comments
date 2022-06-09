@@ -6,6 +6,7 @@ import CommentList from "./CommentList";
 function CommentForm() {
     const [comment, setComment] = useState();
 
+    // Add a new comment
     const addComment = (event) => {
         event.preventDefault();
 

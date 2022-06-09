@@ -5,10 +5,9 @@ import axios from 'axios';
 function Reply(props) {
     const [comment, setComment] = useState();
 
-    console.log(props.postID);
-    console.log(props.value);
     const parentID = props.postID;
 
+    // Add a reply to a parent comment
     const addComment = (event) => {
         event.preventDefault();
 

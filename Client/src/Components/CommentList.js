@@ -15,21 +15,25 @@ function CommentList() {
     const [selected, setSelected] = useState();
     const [newestFirst, setNewestFirst] = useState(true);
 
+    // Open reply window
     const displayReplyWindow = (id) => {
         setSelected(id);
         setOpenReplyWindow(!openReplyWindow);
     }
 
+    // Open report window
     const reportWindow = (id) => {
         setSelected(id);
         setOpenReport(!openReport);
     }
 
+    // Open edit window
     const editWindow = (id) => {
         setSelected(id);
         setOpenEdit(!openEdit);
     }
 
+    // Delete a comment
     const deleteComment = (id) => {
         axios.delete(`http://localhost:5000/deleteComment/${id}`)
             .then((res) => {
@@ -41,11 +45,13 @@ function CommentList() {
         setCommentList(newList);
     }
 
+    // Display text if comment has replies
     const allReplies = (id) => {
         setSelected(id);
         setOpenReplies(!openReplies);
     }
 
+    // Retrieve all comments
     useEffect(() => {
         axios.get("http://localhost:5000/getComments").then((response) => {
             setCommentList(response.data);
@@ -53,8 +59,10 @@ function CommentList() {
         })
     }, [])
 
+    // Filter parent comments which have not been reported
     const filteredList = commentList.filter((comments) => comments.responseTo === null && comments.isVisible === true);
 
+    // Sort comments in based on newest first or oldest first
     let sortedList;
     if (newestFirst === true) {
         sortedList = filteredList.sort((a, b) => new Date(b.time) - new Date(a.time));
