@@ -2,16 +2,46 @@ import { React, useState, useEffect } from 'react';
 import { Card, Image, Button } from 'react-bootstrap';
 import axios from 'axios';
 import ReportDescription from './ReportDescription';
+import Reply from './Reply';
+import EditComment from './EditComment';
 
 function ReplyList(props) {
     const [replyList, setReplyList] = useState([]);
+    const [openEdit, setOpenEdit] = useState(false);
     const [openReport, setOpenReport] = useState(false);
+    const [openReplyWindow, setOpenReplyWindow] = useState(false);
+    const [openReplies, setOpenReplies] = useState(false);
     const [selected, setSelected] = useState();
 
     // Open report window 
     const reportWindow = (id) => {
         setSelected(id);
         setOpenReport(!openReport);
+    }
+
+    const displayReplyWindow = (id) => {
+        setSelected(id);
+        setOpenReplyWindow(!openReplyWindow);
+    }
+
+    const allReplies = (id) => {
+        setSelected(id);
+        setOpenReplies(!openReplies);
+    }
+
+    const editWindow = (id) => {
+        setSelected(id);
+        setOpenEdit(!openEdit);
+    }
+
+    const deleteComment = (id) => {
+        axios.delete(`http://localhost:5000/deleteComment/${id}`)
+            .then((res) => {
+                console.log(res.data);
+            })
+
+        const newList = replyList.filter((reply) => reply._id !== id);
+        setReplyList(newList);
     }
 
     // Retrieve all comments
@@ -27,11 +57,12 @@ function ReplyList(props) {
     
     return (
         <div>
-            <div className='commentList'>
-                
-                {(filteredList.map((replies) => {
+            <div className='replyList'>
+
+                {(filteredList.map((replies, index) => {
                     return (
                         <div >
+
                             <Card className="comment">
                                 <div>
                                     <div className="avatar">
@@ -39,18 +70,54 @@ function ReplyList(props) {
                                     </div>
                                     <p className="userName" style={{ fontWeight: "bold" }}>{replies._id}</p>
                                     <p className="dateTime">{replies.time}</p>
+                                    {(replies.isEdited === true) ?
+                                        <p id="edited">(Edited)</p> : null}
                                 </div>
                                 <p>{replies.comment}</p>
 
                                 <div className='buttons'>
+                                    <Button className="button" variant="outline-secondary" size="sm" onClick={() => displayReplyWindow(replies._id)}>Reply</Button>
+
+                                    {replyList.filter((reply) => reply.responseTo === replies._id && reply.isVisible === true).length === 0 ?
+                                        <Button className="button" variant="outline-secondary" size="sm" onClick={() => deleteComment(replies._id)}>Delete</Button> : null}
+
+                                    <Button className="button" variant="outline-secondary" size="sm" onClick={() => editWindow(replies._id)}>Edit</Button>
                                     <Button className="button" variant="outline-secondary" size="sm" onClick={() => reportWindow(replies._id)}>Report</Button>
                                 </div>
                             </Card>
+
+                            {replyList.filter((reply) => reply.responseTo === replies._id && reply.isVisible === true).length > 0 ?
+                                <p style={{ fontWeight: "500" }}>
+                                    <a href="#!" onClick={() => allReplies(replies._id)}>View replies</a>
+                                </p> : null
+                            }
+
+                            {(selected === replies._id) ?
+                                openReplyWindow &&
+                                < div >
+                                    <Reply value={index} parentID={replies._id} />
+                                </div> : null
+                            }
 
                             {(selected === replies._id) ?
                                 openReport &&
                                 <ReportDescription commentID={replies._id} /> : null
                             }
+
+                            {(selected === replies._id) ?
+                                openReplies &&
+                                <div>
+                                    <ReplyList parentID={replies._id} />
+                                </div> : null
+                            }
+
+                            {(selected === replies._id) ?
+                                openEdit &&
+                                <div>
+                                    <EditComment commentID={replies._id} />
+                                </div> : null
+                            }
+
                         </div>
                     );
                 })
