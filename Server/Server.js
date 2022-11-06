@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
 }
 );
 
-const DB_URL = 'mongodb+srv://Kumuthu:omega123@cluster0.ehhq0.mongodb.net/influencer_hub?retryWrites=true&w=majority';
+const DB_URL = // Add mongodb string
 
 mongoose
 .connect(DB_URL)
